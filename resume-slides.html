@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>데이터분석가 이력서 완전정복</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ─── PALETTE: black · white · gray. Nothing else. ─── */
+    :root {
+      --bg: #0A0A0A;
+      --s1: #111111;
+      --s2: #1A1A1A;
+      --b: #262626;
+      --b2: #333333;
+      --t1: #FFFFFF;
+      --t2: #AAAAAA;
+      --t3: #686868;
+      --font: 'Noto Sans KR', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --dur: 0.5s;
+
+      /* viewport-base.css variables */
+      --h2: clamp(1.15rem, 2.8vw, 2rem);
+      --body: clamp(0.75rem, 1.3vw, 0.98rem);
+      --sm: clamp(0.62rem, 0.9vw, 0.78rem);
+      --pad: clamp(2rem, 5.5vw, 5.5rem);
+      --gap: clamp(0.3rem, 0.9vh, 0.8rem);
+    }
+
+    /* ─── RESET ─── */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ─── VIEWPORT BASE (mandatory) ─── */
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: var(--bg);
+      font-family: var(--font);
+      color: var(--t1);
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .sc {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-height: 100%;
+      overflow: hidden;
+      padding: 0 var(--pad) clamp(1rem, 3vh, 2.5rem);
+      position: relative;
+      z-index: 1;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: min(50vh, 400px);
+      object-fit: contain;
+    }
+
+    @media (max-height:700px) {
+      :root {
+        --pad: clamp(1.2rem, 3.5vw, 3rem);
+        --gap: clamp(0.22rem, 0.6vh, 0.55rem);
+        --h2: clamp(1rem, 2.5vw, 1.6rem);
+        --body: clamp(0.7rem, 1.1vw, 0.9rem);
+      }
+    }
+
+    @media (max-height:600px) {
+      :root {
+        --pad: clamp(0.9rem, 2.5vw, 2rem);
+        --gap: clamp(0.18rem, 0.45vh, 0.42rem);
+        --h2: clamp(0.9rem, 2.2vw, 1.4rem);
+        --body: clamp(0.65rem, 1vw, 0.82rem);
+      }
+
+      .nav-dots,
+      .kbh {
+        display: none;
+      }
+    }
+
+    @media (max-height:500px) {
+      :root {
+        --pad: clamp(0.6rem, 2vw, 1.5rem);
+        --h2: clamp(0.85rem, 2vw, 1.2rem);
+        --body: clamp(0.6rem, 0.9vw, 0.75rem);
+      }
+    }
+
+    @media (max-width:600px) {
+
+      .comp,
+      .two-col,
+      .car-row,
+      .story-row {
+        grid-template-columns: 1fr !important;
+      }
+
+      .car-row {
+        flex-direction: column !important;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.1ms !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ─── TOP BAR ─── */
+    .sh {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(1rem, 2.5vh, 1.8rem) var(--pad) 0;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stag {
+      font-size: var(--sm);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--t3);
+      font-weight: 500;
+    }
+
+    .snum {
+      font-size: var(--sm);
+      color: var(--t3);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── BG NUMBER ─── */
+    .bgn {
+      position: absolute;
+      right: var(--pad);
+      bottom: clamp(0.5rem, 2vh, 2rem);
+      font-size: clamp(5rem, 14vw, 11rem);
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.03);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: -0.04em;
+    }
+
+    /* ─── REVEAL ─── */
+    .r {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+
+    .slide.visible .r {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .r:nth-child(1) {
+      transition-delay: 0.02s;
+    }
+
+    .r:nth-child(2) {
+      transition-delay: 0.08s;
+    }
+
+    .r:nth-child(3) {
+      transition-delay: 0.14s;
+    }
+
+    .r:nth-child(4) {
+      transition-delay: 0.20s;
+    }
+
+    .r:nth-child(5) {
+      transition-delay: 0.26s;
+    }
+
+    .r:nth-child(6) {
+      transition-delay: 0.32s;
+    }
+
+    .r:nth-child(7) {
+      transition-delay: 0.38s;
+    }
+
+    .r:nth-child(8) {
+      transition-delay: 0.44s;
+    }
+
+    /* ─── PROGRESS ─── */
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 1px;
+      background: var(--t1);
+      z-index: 1000;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+
+    /* ─── NAV DOTS ─── */
+    .nav-dots {
+      position: fixed;
+      right: clamp(0.6rem, 1.2vw, 1rem);
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.22rem, 0.45vh, 0.38rem);
+      z-index: 100;
+    }
+
+    .ndot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--t3);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .ndot.active {
+      background: var(--t1);
+      transform: scale(1.8);
+    }
+
+    /* ─── KB HINT ─── */
+    .kbh {
+      position: fixed;
+      bottom: clamp(0.4rem, 1vh, 0.8rem);
+      right: clamp(0.6rem, 1.2vw, 1rem);
+      font-size: clamp(0.5rem, 0.65vw, 0.6rem);
+      color: var(--t3);
+      z-index: 100;
+    }
+
+    /* ─── SLIDE TITLE ─── */
+    .title {
+      font-size: var(--h2);
+      font-weight: 700;
+      color: var(--t1);
+      line-height: 1.2;
+      margin-bottom: clamp(0.25rem, 0.8vh, 0.65rem);
+    }
+
+    .rule {
+      height: 1px;
+      background: var(--b);
+      margin-bottom: var(--gap);
+      flex-shrink: 0;
+    }
+
+    /* ─── PLAIN NUMBERED LIST ─── */
+    .plist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+
+    .plist li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7em;
+      font-size: var(--body);
+      line-height: 1.55;
+      color: var(--t1);
+    }
+
+    .pn {
+      font-size: var(--sm);
+      color: var(--t3);
+      min-width: 1.3em;
+      flex-shrink: 0;
+    }
+
+    /* ─── ROW LIST (divider lines) ─── */
+    .rlist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rlist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65em;
+      font-size: var(--body);
+      line-height: 1.5;
+      color: var(--t1);
+      padding: clamp(0.28rem, 0.7vh, 0.52rem) 0;
+      border-bottom: 1px solid var(--b);
+    }
+
+    .rlist li:last-child {
+      border-bottom: none;
+    }
+
+    .rico {
+      flex-shrink: 0;
+      min-width: 1.2em;
+      text-align: center;
+    }
+
+    /* ─── BIG STAT ─── */
+    .bigstat {
+      font-size: clamp(5rem, 14vw, 10rem);
+      font-weight: 900;
+      color: var(--t1);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      margin: clamp(0.1rem, 0.4vh, 0.4rem) 0;
+    }
+
+    .stat-lbl {
+      font-size: var(--body);
+      color: var(--t2);
+      margin-top: 0.4em;
+    }
+
+    /* ─── COMPARISON ─── */
+    .comp {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.3rem, 0.7vw, 0.55rem);
+      margin: var(--gap) 0;
+    }
+
+    .cc {
+      border: 1px solid var(--b);
+      padding: clamp(0.4rem, 0.9vh, 0.7rem);
+      font-size: clamp(0.68rem, 1.1vw, 0.83rem);
+      line-height: 1.55;
+    }
+
+    .clbl {
+      font-size: var(--sm);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--t2);
+      margin-bottom: 0.35em;
+      display: block;
+    }
+
+    /* ─── CODE ─── */
+    .code {
+      background: var(--s1);
+      border: 1px solid var(--b);
+      padding: clamp(0.45rem, 1.1vh, 0.85rem) clamp(0.55rem, 1.2vw, 0.95rem);
+      font-family: var(--mono);
+      font-size: clamp(0.62rem, 1vw, 0.76rem);
+      line-height: 1.9;
+      color: var(--t2);
+      overflow: hidden;
+      margin: var(--gap) 0;
+    }
+
+    .ck {
+      color: var(--t1);
+    }
+
+    .ca {
+      color: var(--t2);
+      font-style: italic;
+    }
+
+    /* ─── TABLE ─── */
+    .tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(0.67rem, 1.1vw, 0.83rem);
+      margin: var(--gap) 0;
+    }
+
+    .tbl th {
+      text-align: left;
+      color: var(--t2);
+      font-size: var(--sm);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      padding: clamp(0.22rem, 0.55vh, 0.42rem) clamp(0.4rem, 0.8vw, 0.62rem);
+      border-bottom: 1px solid var(--b);
+    }
+
+    .tbl td {
+      padding: clamp(0.2rem, 0.5vh, 0.4rem) clamp(0.4rem, 0.8vw, 0.62rem);
+      border-bottom: 1px solid var(--s2);
+      color: var(--t1);
+      line-height: 1.5;
+      vertical-align: top;
+    }
+
+    .tbl tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tbl td:first-child {
+      color: var(--t2);
+    }
+
+    /* ─── STEPS ─── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .step {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75em;
+      font-size: var(--body);
+      color: var(--t1);
+      line-height: 1.5;
+      padding: clamp(0.26rem, 0.65vh, 0.48rem) 0;
+      border-bottom: 1px solid var(--b);
+    }
+
+    .step:last-child {
+      border-bottom: none;
+    }
+
+    .stepn {
+      font-size: var(--sm);
+      color: var(--t3);
+      min-width: 1.5em;
+      flex-shrink: 0;
+    }
+
+    /* ─── CAR BOXES ─── */
+    .car-row {
+      display: flex;
+      gap: clamp(0.3rem, 0.7vw, 0.55rem);
+      margin: var(--gap) 0;
+    }
+
+    .carb {
+      flex: 1;
+      border: 1px solid var(--b);
+      padding: clamp(0.45rem, 1.1vh, 0.85rem);
+      text-align: center;
+    }
+
+    .carL {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--t1);
+      line-height: 1;
+    }
+
+    .carW {
+      font-size: var(--sm);
+      color: var(--t2);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin: 0.2em 0;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .carD {
+      font-size: clamp(0.58rem, 0.88vw, 0.72rem);
+      color: var(--t3);
+      line-height: 1.4;
+    }
+
+    /* ─── FORMULA LINE ─── */
+    .formula {
+      font-size: var(--body);
+      color: var(--t2);
+      border-left: 2px solid var(--b2);
+      padding: clamp(0.28rem, 0.7vh, 0.55rem) clamp(0.5rem, 1vw, 0.75rem);
+      margin: var(--gap) 0;
+      line-height: 1.5;
+    }
+
+    .flbl {
+      display: block;
+      font-size: var(--sm);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--t3);
+      margin-bottom: 0.2em;
+    }
+
+    /* ─── STORY COLS ─── */
+    .story-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.3rem, 0.7vw, 0.55rem);
+      margin: var(--gap) 0;
+    }
+
+    .stcol {
+      border: 1px solid var(--b);
+      padding: clamp(0.4rem, 0.9vh, 0.7rem);
+      font-size: clamp(0.65rem, 1.05vw, 0.8rem);
+      line-height: 1.5;
+    }
+
+    .stlbl {
+      font-size: var(--sm);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--t3);
+      margin-bottom: 0.3em;
+      display: block;
+    }
+
+    /* ─── TWO COL ─── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.5rem, 1.5vw, 1.5rem);
+      align-items: start;
+    }
+
+    .colh {
+      font-size: var(--sm);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--t3);
+      margin-bottom: 0.5em;
+    }
+
+    /* ─── NOTE ─── */
+    .note {
+      font-size: clamp(0.62rem, 0.95vw, 0.76rem);
+      color: var(--t3);
+      margin-top: var(--gap);
+      line-height: 1.5;
+    }
+
+    /* ─── PILLS ─── */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(0.22rem, 0.5vw, 0.4rem);
+      margin: var(--gap) 0;
+    }
+
+    .pill {
+      border: 1px solid var(--b);
+      color: var(--t2);
+      padding: 0.22em 0.65em;
+      font-size: clamp(0.6rem, 0.9vw, 0.72rem);
+    }
+
+    /* ─── TITLE SLIDE ─── */
+    .title-slide .sc {
+      justify-content: center;
+    }
+
+    .teyebrow {
+      font-size: var(--sm);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--t3);
+      margin-bottom: clamp(0.5rem, 1.5vh, 1.2rem);
+    }
+
+    .th1 {
+      font-size: clamp(2.2rem, 7vw, 5.8rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--t1);
+      margin-bottom: clamp(0.4rem, 1.2vh, 1rem);
+    }
+
+    .trule {
+      height: 1px;
+      width: clamp(2rem, 5vw, 3.5rem);
+      background: var(--b2);
+      margin-bottom: clamp(0.6rem, 1.8vh, 1.4rem);
+    }
+
+    .tsub {
+      font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+      color: var(--t2);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─── CLOSING SLIDE ─── */
+    .close-title {
+      font-size: clamp(1.6rem, 4.5vw, 3.5rem);
+      font-weight: 900;
+      color: var(--t1);
+      line-height: 1.1;
+      margin-bottom: clamp(0.35rem, 1vh, 0.8rem);
+    }
+
+    /* ─── RESOURCE TABLE ─── */
+    .rtbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(0.65rem, 1.05vw, 0.8rem);
+    }
+
+    .rtbl td {
+      padding: clamp(0.2rem, 0.5vh, 0.38rem) clamp(0.4rem, 0.8vw, 0.62rem);
+      border-bottom: 1px solid var(--s2);
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+
+    .rtbl tr:last-child td {
+      border-bottom: none;
+    }
+
+    .rtbl .rcat {
+      color: var(--t2);
+      width: 34%;
+      white-space: nowrap;
+    }
+
+    .rtbl a {
+      color: var(--t1);
+      text-decoration: none;
+      border-bottom: 1px solid var(--b2);
+      transition: border-color 0.15s ease;
+    }
+
+    .rtbl a:hover {
+      border-bottom-color: var(--t1);
+    }
+
+    /* ===== RESUME SECTION BAR ===== */
+    #resumeBar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(0.3rem, 0.7vh, 0.55rem) var(--pad);
+      border-top: 1px solid var(--b);
+      background: var(--bg);
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    #resumeBar.show {
+      opacity: 1;
+    }
+
+    .rb-item {
+      font-size: clamp(0.48rem, 0.65vw, 0.58rem);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--t3);
+      padding: 0 clamp(0.45rem, 0.9vw, 0.75rem);
+      border-right: 1px solid var(--b);
+      white-space: nowrap;
+      transition: color 0.3s ease;
+    }
+
+    .rb-item:last-child {
+      border-right: none;
+    }
+
+    .rb-item.active {
+      color: var(--t1);
+      font-weight: 700;
+    }
+
+    /* ─── SPEAKER PROFILE ─── */
+    .speaker-layout {
+      display: flex;
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+      align-items: center;
+    }
+
+    .speaker-photo-col {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55em;
+    }
+
+    .speaker-img {
+      width: clamp(90px, 14vw, 160px);
+      height: clamp(90px, 14vw, 160px);
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
+      border: 1px solid var(--b);
+    }
+
+    .speaker-name-label {
+      font-size: var(--sm);
+      color: var(--t2);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .speaker-info-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .speaker-quote {
+      font-size: clamp(0.78rem, 1.3vw, 0.96rem);
+      color: var(--t2);
+      font-style: italic;
+      line-height: 1.5;
+      border-left: 2px solid var(--b2);
+      padding-left: 0.75em;
+      margin-bottom: var(--gap);
+    }
+
+    .speaker-bio {
+      font-size: clamp(0.6rem, 0.9vw, 0.74rem);
+      color: var(--t3);
+      line-height: 1.65;
+      margin-top: var(--gap);
+    }
+
+    /* ─── PRINT / PDF ─── */
+    @media print {
+      @page {
+        size: 1280px 720px;
+        margin: 0;
+      }
+
+      html,
+      body {
+        height: auto;
+        overflow: visible;
+      }
+
+      html {
+        scroll-snap-type: none;
+      }
+
+      .slide {
+        width: 1280px;
+        height: 720px;
+        page-break-after: always;
+        break-after: page;
+        overflow: hidden;
+      }
+
+      .slide:last-child {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      .r {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+
+      .progress,
+      .nav-dots,
+      .kbh,
+      #resumeBar {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="progress" id="progressBar"></div>
+  <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+  <div class="kbh">↑↓ · Space</div>
+
+  <!-- ══════════════════════════════════
+  01  TITLE
+══════════════════════════════════ -->
+  <section class="slide title-slide" id="slide-1">
+    <div class="sh r">
+      <span class="stag">Resume Session</span>
+      <span class="snum">1 / 26</span>
+    </div>
+    <div class="sc">
+      <p class="teyebrow r">신입·인턴 실전 가이드 · 60분</p>
+      <h1 class="th1 r">데이터분석가<br> 이력서 세션</h1>
+      <div class="trule r"></div>
+      <p class="tsub r">이준수 튜터 · 5/15</p>
+    </div>
+    <div class="bgn">01</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  02  SPEAKER PROFILE
+══════════════════════════════════ -->
+  <section class="slide" id="slide-speaker">
+    <div class="sh">
+      <span class="stag">Speaker Profile</span>
+      <span class="snum">2 / 26</span>
+    </div>
+    <div class="sc">
+      <div class="speaker-layout">
+        <div class="speaker-photo-col r">
+          <img src="be3e3daf-3a30-4b67-b3d6-0f320763d2e7.jpeg" alt="이준수" class="speaker-img">
+          <span class="speaker-name-label">이준수 튜터</span>
+        </div>
+        <div class="speaker-info-col">
+          <p class="colh r">Career Path</p>
+          <ul class="rlist">
+            <li class="r"><span class="rico"
+                style="color:var(--t1);font-weight:700;">現</span><span><strong>Uber</strong> (Payments) &nbsp;·&nbsp;
+                서류심사 및 기술 면접관</span></li>
+            <li class="r"><span class="rico" style="color:var(--t3);">前</span><span><strong>쿠팡</strong> (Eats · Pricing
+                · Membership) &nbsp;·&nbsp; 서류심사 및 기술 면접관</span></li>
+            <li class="r"><span class="rico" style="color:var(--t3);">前</span><span><strong>NH투자증권</strong> (빅데이터센터)
+                &nbsp;·&nbsp; 서류심사 참여</span></li>
+            <li class="r"><span class="rico" style="color:var(--t3);">前</span><span><strong>Deloitte Consulting</strong>
+                (Analytics)</span></li>
+          </ul>
+          <p class="speaker-bio r">전통 금융권부터 글로벌 테크까지, 여러 조직에서 수천 장의 이력서를 검토하고 직접 면접을 진행해 왔습니다. <br>그 과정에서 느꼈던 '잘 쓴 이력서'의
+            기준과, 현업 평가자의 입장에서 결국 면접장까지 부르고 싶게 만드는 결정적인 차이들에 대해 가볍게 이야기해보려 합니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bgn">02</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  02  오늘 목표
+══════════════════════════════════ -->
+  <section class="slide" id="slide-2">
+    <div class="sh">
+      <span class="stag">목표</span>
+      <span class="snum">3 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">오늘의 목표</h2>
+      <div class="rule r"></div>
+      <ul class="plist">
+        <li class="r"><span class="pn">01</span><span>이력서가 <strong>어떻게 읽히는지</strong> 안다</span></li>
+        <li class="r"><span class="pn">02</span><span>신입 이력서 <strong>섹션 구조</strong>를 잡는다</span></li>
+        <li class="r"><span class="pn">03</span><span>프로젝트를 <strong>설득력 있게</strong> 쓴다</span></li>
+        <li class="r"><span class="pn">04</span><span><strong>ATS를 통과하는</strong> 키워드 전략을 쓴다</span></li>
+        <li class="r"><span class="pn">05</span><span>제출 전 <strong>체크리스트</strong>를 갖고 간다</span></li>
+      </ul>
+    </div>
+    <div class="bgn">02</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  03  10초 현실
+══════════════════════════════════ -->
+  <section class="slide" id="slide-3">
+    <div class="sh">
+      <span class="stag">현실</span>
+      <span class="snum">4 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">면접관이 이력서를 보는 시간</h2>
+      <div class="rule r"></div>
+      <p class="bigstat r">10초</p>
+      <p class="stat-lbl r">이 안에 보이지 않으면 넘어간다</p>
+      <ul class="rlist" style="margin-top:var(--gap);">
+        <li class="r"><span class="rico">—</span><span><strong>Tool / Skills</strong> — SQL, Python, Tableau 같은
+            키워드</span></li>
+        <li class="r"><span class="rico">—</span><span><strong>Numbers</strong> — 23% 향상, 8시간 자동화</span></li>
+        <li class="r"><span class="rico">—</span><span><strong>회사명·프로젝트명</strong> — 어디서 뭘 했는가</span></li>
+      </ul>
+    </div>
+    <div class="bgn">03</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  04  지원해라
+══════════════════════════════════ -->
+  <section class="slide" id="slide-4">
+    <div class="sh">
+      <span class="stag">마인드셋</span>
+      <span class="snum">5 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">지원을 안하면 합격할 확률은 0%다...</h2>
+      <div class="rule r"></div>
+      <div class="formula r">
+        <span class="flbl">Quote</span>
+        "It's free. You can't get the interview unless you apply."
+      </div>
+      <ul class="rlist">
+
+        <li class="r"><span class="rico">—</span><span>두드리지 않으면 문은 절대 열리지 않는다.</span></li>
+        <li class="r"><span class="rico">—</span><span>5번 떨어지고 붙은 사람의 이력서는 한 번에 붙은 사람과 똑같이 보인다</span></li>
+        <li class="r"><span class="rico">—</span><span>탈락 또한 분석할 수 있는 데이터다! 역추적하고 다음에 반영하면 된다</span></li>
+      </ul>
+    </div>
+    <div class="bgn">04</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  05  이력서 구조
+══════════════════════════════════ -->
+  <section class="slide" id="slide-5">
+    <div class="sh">
+      <span class="stag">구조</span>
+      <span class="snum">6 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">이력서 섹션 구조 — 신입 기준</h2>
+      <div class="rule r"></div>
+      <div class="steps">
+        <div class="step r">
+          <span class="stepn">①</span>
+          <span><strong>인적사항</strong></span><span class="note r"> — 이름 · 연락처 · 이메일 · LinkedIn · GitHub URL</span>
+        </div>
+        <div class="step r">
+          <span class="stepn">②</span>
+          <span><strong>Objective</strong></span><span class="note r"> — 2–3줄. 누구인지 · 무엇을 했는지 · 어디로
+            가려는지</span>
+        </div>
+        <div class="step r">
+          <span class="stepn" style="color:var(--t1);">③</span>
+          <span style="color:var(--t1);"><strong>Projects </strong></span><span class="note r"> — 신입은 여기서 승부보면 된다. 경력이
+            없으면
+            프로젝트가 경력을 대신한다</span>
+        </div>
+        <div class="step r">
+          <span class="stepn">④</span>
+          <span><strong>Education</strong></span><span class="note r"> — 학교·전공·GPA (좋으면) · 부트캠프·수료 과정</span>
+        </div>
+        <div class="step r">
+          <span class="stepn">⑤</span>
+          <span><strong>Experience</strong></span><span class="note r"> — 인턴·관련 아르바이트 있으면. 없어도 괜찮다</span>
+        </div>
+        <div class="step r">
+          <span class="stepn">⑥</span>
+          <span><strong>Skills</strong> <span class="note r"> — Languages · Tools · Libraries · Methods. 방어 가능한
+              것만</span></span>
+        </div>
+      </div>
+      <p class="note r">PDF 제출 필수. 이미지 기반 이력서는 ATS가 읽지 못한다. 사진·생년월일은 공고 확인 후 결정.</p>
+    </div>
+    <div class="bgn">05</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  06  Objective
+══════════════════════════════════ -->
+  <section class="slide" id="slide-6" data-resume="objective">
+    <div class="sh">
+      <span class="stag">Objective</span>
+      <span class="snum">7 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">Objective — 2–3줄 포지셔닝</h2>
+      <div class="rule r"></div>
+      <div class="formula r">
+        <span class="flbl">공식</span>
+        [현재 역량 스냅샷] + [프로젝트·경험 근거] + [지향점]
+      </div>
+      <p class="r" style="font-size:var(--sm);color:var(--t2);margin:var(--gap) 0 calc(var(--gap)*0.4);">❌ 아무 정보 없음 —
+        하루에 수백 번 보는 문장</p>
+      <div class="code r" style="margin-bottom:var(--gap);line-height:1.5;">"데이터에 열정을 가진 예비 분석가로서 귀사에서 성장하고 싶습니다."</div>
+      <table class="tbl r">
+        <thead>
+          <tr>
+            <th>유형</th>
+            <th>Objective 예시 (2–3줄)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>신입</td>
+            <td>"SQL과 Python으로 이커머스 고객 이탈 예측 모델을 구현하고 BigQuery로 자동화 대시보드를 직접 만들었습니다. 분석 결과를 실제 비즈니스 결정으로 연결하는 작업에
+              관심이 많으며 팀의 의사결정을 데이터로 뒷받침하는 DA로 합류하고 싶습니다."</td>
+          </tr>
+          <tr>
+            <td>커리어 전환</td>
+            <td>"이커머스 마케팅 3년간 고객 세그멘테이션과 캠페인 성과 분석을 직접 맡아 운영했습니다. 이후 Python과 SQL을 독학으로 익혀 코호트 분석과 퍼널 분석 프로젝트 2건을 직접
+              진행했습니다. 현장 도메인 지식과
+              데이터 분석을 함께 갖춘 DA로 성장하고 싶습니다."</td>
+          </tr>
+          <tr>
+            <td>인사이트</td>
+            <td>"GA4와 SQL로 사용자 행동 데이터를 분석해 결제 퍼널의 주요 이탈 구간을 찾아내고 전환율 23% 개선 방안을 제안했습니다. 숫자 뒤에 있는 비즈니스 맥락을 읽어
+              바로 쓸 수 있는 인사이트를 전달하는 DA가 되고 싶습니다."</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bgn">06</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  07  Projects — 신입의 전부
+══════════════════════════════════ -->
+  <section class="slide" id="slide-7" data-resume="projects">
+    <div class="sh">
+      <span class="stag">Projects</span>
+      <span class="snum">8 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">Projects</h2>
+      <div class="rule r"></div>
+      <div class="formula r">
+        <span class="flbl">핵심</span>
+        신입에게 경력란이 없다 = 프로젝트가 곧 경력이다
+      </div>
+      <ul class="rlist">
+        <li class="r"><span class="rico">—</span><span>면접관은 프로젝트를 보고 "이 사람이 실제 업무에서 무엇을 할 수 있는가"를 판단한다</span></li>
+        <li class="r"><span class="rico">—</span><span>프로젝트 1개 = <strong>문제 정의 + 데이터 처리 + 분석·모델링 + 인사이트 도출</strong>까지
+            전부</span></li>
+        <li class="r"><span class="rico">—</span><span>GitHub 링크 + README가 없으면 없는 것과 같다 — 링크가 열려야 의미 있다</span></li>
+      </ul>
+      <div class="code r">
+        <div><span class="ck">프로젝트명</span> | <span class="ca">Python · SQL · XGBoost</span> github.com/…</div>
+        <div>• 구매 전환율 정체 원인 불명확 → 6단계 퍼널 분석 → 전환율 23% 향상 제안</div>
+        <div>• 50만 건 거래 데이터, SMOTE 적용 이탈 예측, F1-score 0.71 → 0.84</div>
+      </div>
+      <p class="note r">제목 옆에 스택을 노출하면 ATS 키워드 매칭에 유리하다</p>
+    </div>
+    <div class="bgn">07</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  08  비즈니스 사고 (좋은 프로젝트 기준 ①)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-8" data-resume="projects">
+    <div class="sh">
+      <span class="stag">좋은 프로젝트 ①</span>
+      <span class="snum">9 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">면접관이 보는 건 기술이 아니라 비즈니스 사고다</h2>
+      <div class="rule r"></div>
+      <p class="r" style="font-size:var(--body);color:var(--t2);margin-bottom:var(--gap);">신입 이력서의 90%는 기술 나열에서 끝난다.
+        면접관이 원하는 건 다르다.</p>
+      <table class="tbl r">
+        <thead>
+          <tr>
+            <th>이력서에 쓴 문장</th>
+            <th>면접관의 속마음</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>❌ "랜덤포레스트로 분류 모델 구현, 정확도 87%"</td>
+            <td>"그래서 왜 만들었는데? 87%가 의미 있나?"</td>
+          </tr>
+          <tr>
+            <td>❌ "pandas로 데이터 전처리 및 EDA 수행"</td>
+            <td>"누구나 하는 것. 이게 어떤 문제를 해결했지?"</td>
+          </tr>
+          <tr>
+            <td>✅ "이탈 고객 조기 감지 목적 → RF 모델 적용 → 마케팅팀 선제 개입으로 재구매율 12% 개선"</td>
+            <td>"이 사람은 왜 만들었는지 알고 있다"</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="formula r">
+        <span class="flbl">자가 점검</span>
+        "이 분석이 없었다면 어떤 결정을 못 했을까?" — 이 질문에 답할 수 있어야 한다
+      </div>
+    </div>
+    <div class="bgn">08</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  09  깊이 (좋은 프로젝트 기준 ②)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-9" data-resume="projects">
+    <div class="sh">
+      <span class="stag">좋은 프로젝트 ②</span>
+      <span class="snum">10 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">프로젝트는 수가 아니라 깊이다</h2>
+      <div class="rule r"></div>
+      <div class="formula r">
+        <span class="flbl">핵심 원칙</span>
+        잘 아는 프로젝트 2개 &gt; 설명 못 하는 프로젝트 5개
+      </div>
+      <ul class="rlist">
+        <li class="r"><span class="rico">—</span><span>방어할 수 없는 프로젝트는 이력서에 올리지 마라 — 면접에서 1분 안에 걸린다</span></li>
+        <li class="r"><span class="rico">—</span><span>가장 잘 아는 프로젝트를 골라 끝까지 파고들어라. 데이터 선택 이유, 방법론, 한계까지</span></li>
+        <li class="r"><span class="rico">—</span><span>내 프로젝트를 남에게 설명하듯 3번 이상 말해봤다면, 그 프로젝트는 이력서에 올릴 수 있다</span></li>
+        <li class="r"><span class="rico">—</span><span>GitHub README, 분석 과정, 인사이트, 한계 — 이것까지 문서화한 것이 강한 프로젝트다</span>
+        </li>
+      </ul>
+    </div>
+    <div class="bgn">09</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  10  전부 물어본다 (좋은 프로젝트 기준 ③)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-10" data-resume="projects">
+    <div class="sh">
+      <span class="stag">좋은 프로젝트 ③</span>
+      <span class="snum">11 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">이력서에 쓴건 면접관이 보통 전부 물어본다</h2>
+      <div class="rule r"></div>
+      <p class="r" style="font-size:var(--body);color:var(--t2);margin-bottom:var(--gap);">면접관은 프로젝트 내용을
+        이력서보다 더 깊게 판다. 실제로 업무한 부분만 쓰고, 그걸 완벽하게 숙지하고 적는게 좋다.</p>
+      <ul class="rlist">
+        <li class="r"><span class="rico">—</span><span>코드를 복붙했어도 "왜 XGBoost를 썼나요?"에 막히면 그 순간 끝이다</span></li>
+        <li class="r"><span class="rico">—</span><span>과장한 내용은 1분 안에 걸린다 — 면접관은 같은 프로젝트를 수백 번 봤다</span></li>
+        <li class="r"><span class="rico">—</span><span>모르는 게 있으면 "그 부분은 더 공부가 필요합니다"가 거짓말보다 낫다</span></li>
+      </ul>
+      <div class="comp r">
+        <div class="cc">
+          <span class="clbl">❌ 이렇게 준비하면 안 된다</span>
+          "GitHub 링크 있으니까 보여주면 되겠지"
+        </div>
+        <div class="cc">
+          <span class="clbl">✅ 이렇게 준비해야 한다</span>
+          "이 프로젝트에서 내가 내린 모든 판단과 이유를 막힘없이 말할 수 있다"
+        </div>
+      </div>
+    </div>
+    <div class="bgn">10</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  11  CAR 공식 (작성법 ①)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-11" data-resume="projects">
+    <div class="sh">
+      <span class="stag">작성법 ①</span>
+      <span class="snum">12 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">경력·프로젝트 — CAR 공식</h2>
+      <div class="rule r"></div>
+      <div class="car-row r">
+        <div class="carb">
+          <div class="carL">C</div>
+          <span class="carW">Context</span>
+          <span class="carD">어떤 상황·규모였는가</span>
+        </div>
+        <div class="carb">
+          <div class="carL">A</div>
+          <span class="carW">Action</span>
+          <span class="carD">내가 뭘·왜 그 방법으로 했는가</span>
+        </div>
+        <div class="carb">
+          <div class="carL">R</div>
+          <span class="carW">Result</span>
+          <span class="carD">숫자로 된 결과</span>
+        </div>
+      </div>
+      <table class="tbl r">
+        <thead>
+          <tr>
+            <th>유형</th>
+            <th>이력서 한 줄 — C &rarr; A &rarr; R</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>인사이트</td>
+            <td>구매 전환율 정체 원인 불명확 → SQL로 6단계 퍼널 구간별 이탈 원인 분석 → 핵심 구간 개선 제안으로 전환율 23% 향상</td>
+          </tr>
+          <tr>
+            <td>자동화</td>
+            <td>영업팀 KPI 보고서 주 10시간 수작업 반복 → BigQuery + Looker Studio 파이프라인 구축 → 작성 시간 10h → 30min 단축</td>
+          </tr>
+          <tr>
+            <td>모델링</td>
+            <td>클래스 불균형으로 이탈 예측 재현율 낮음 → SMOTE 오버샘플링 후 XGBoost 적용 → F1-score 0.71 → 0.84 개선</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note r">→ 는 C·A·R 흐름을 나타낸다. 이 구조를 한 문장으로 압축하면 이력서 bullet이 된다.</p>
+    </div>
+    <div class="bgn">11</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  12  CAR — "왜" (작성법 ②)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-12" data-resume="projects">
+    <div class="sh">
+      <span class="stag">작성법 ②</span>
+      <span class="snum">13 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">"왜 그 방식을 선택했는지"가 중요하다</h2>
+      <div class="rule r"></div>
+      <p class="r" style="font-size:var(--body);color:var(--t2);margin-bottom:var(--gap);">"했다"는 누구나 쓴다. "왜"가 들어가면 실무를
+        안다는 신호가 된다.</p>
+      <ul class="rlist">
+        <li class="r"><span class="rico">—</span><span>다중공선성 문제로 <strong>Ridge 회귀 선택</strong>, RMSE 18% 감소</span></li>
+        <li class="r"><span class="rico">—</span><span>실시간 처리 요건으로 <strong>배치 대신 스트리밍 파이프라인</strong>, 지연시간 40% 단축</span>
+        </li>
+        <li class="r"><span class="rico">—</span><span>해석 가능성이 중요해 <strong>SHAP으로 feature importance</strong> 시각화</span>
+        </li>
+      </ul>
+      <p class="note r">면접관이 추가 질문을 하고 싶어지는 이력서가 좋은 이력서다</p>
+    </div>
+    <div class="bgn">12</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  13  숫자 없을 때 (작성법 ③)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-13" data-resume="projects">
+    <div class="sh">
+      <span class="stag">작성법 ③</span>
+      <span class="snum">14 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">숫자가 없을 때 — 4가지 대체법</h2>
+      <div class="rule r"></div>
+      <table class="tbl r">
+        <thead>
+          <tr>
+            <th>방법</th>
+            <th>예시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>데이터 크기</td>
+            <td>"50만 건 이상의 거래 데이터 전처리"</td>
+          </tr>
+          <tr>
+            <td>속도 개선</td>
+            <td>"쿼리 실행 시간 45초 → 3초로 단축"</td>
+          </tr>
+          <tr>
+            <td>모델 성능</td>
+            <td>"F1-score 0.71 → 0.84 개선"</td>
+          </tr>
+          <tr>
+            <td>규모·범위</td>
+            <td>"5인 팀, 데이터 파이프라인 단독 설계"</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note r">숫자를 만들지 마라. 프로젝트를 다시 보면 행 수·처리 시간·모델 지표 중 하나는 반드시 있다.</p>
+    </div>
+    <div class="bgn">13</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  14  Action 동사 (작성법 ④)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-14" data-resume="projects">
+    <div class="sh">
+      <span class="stag">작성법 ④</span>
+      <span class="snum">15 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">Action 동사 — 주체성을 보여라</h2>
+      <div class="rule r"></div>
+      <table class="tbl r">
+        <thead>
+          <tr>
+            <th>카테고리</th>
+            <th>국문</th>
+            <th>영문</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>분석·발견</td>
+            <td>분석, 발굴, 도출, 진단</td>
+            <td>Analyzed, Identified, Diagnosed</td>
+          </tr>
+          <tr>
+            <td>구축·개발</td>
+            <td>구축, 개발, 설계, 구현</td>
+            <td>Built, Developed, Designed</td>
+          </tr>
+          <tr>
+            <td>개선·자동화</td>
+            <td>자동화, 개선, 최적화</td>
+            <td>Automated, Optimized, Reduced</td>
+          </tr>
+          <tr>
+            <td>협업·전달</td>
+            <td>제안, 공유, 발표</td>
+            <td>Presented, Collaborated, Drove</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note r">❌ 비추: 담당했습니다 · 기여했습니다 · Was responsible for · Helped with</p>
+    </div>
+    <div class="bgn">14</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  15  포트폴리오 PDF
+══════════════════════════════════ -->
+  <section class="slide" id="slide-15" data-resume="projects">
+    <div class="sh">
+      <span class="stag">포트폴리오</span>
+      <span class="snum">16 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">포트폴리오 PDF — 이력서와 별도 준비</h2>
+      <div class="rule r"></div>
+      <p class="r" style="font-size:var(--body);color:var(--t2);margin-bottom:var(--gap);">이력서에는 결과 한 줄. 포트폴리오에는 전 과정.
+      </p>
+      <div class="steps">
+        <div class="step r"><span class="stepn">01</span><span>문제 배경과 목표</span></div>
+        <div class="step r"><span class="stepn">02</span><span>데이터 출처와 규모</span></div>
+        <div class="step r"><span class="stepn">03</span><span>분석 방법 및 툴 — <strong>왜 이 방법을 선택했는가</strong></span></div>
+        <div class="step r"><span class="stepn">04</span><span>결과 시각화 (차트·스크린샷)</span></div>
+        <div class="step r"><span class="stepn">05</span><span>인사이트와 한계</span></div>
+      </div>
+      <p class="note r">GitHub README도 포트폴리오의 일부. first commit만 있으면 역효과.</p>
+    </div>
+    <div class="bgn">15</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  16  Skills — 포맷 & 최소 요건
+══════════════════════════════════ -->
+  <section class="slide" id="slide-16" data-resume="skills">
+    <div class="sh">
+      <span class="stag">Skills</span>
+      <span class="snum">17 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">Skills — 방어 가능한 것만 써라</h2>
+      <div class="rule r"></div>
+      <div class="code r">
+        <div><span class="ck">Languages: </span>Python, SQL, R</div>
+        <div><span class="ck">Tools: </span>Tableau, Looker, Google Data Studio, BigQuery</div>
+        <div><span class="ck">Libraries: </span>pandas, scikit-learn, NumPy, Matplotlib</div>
+        <div><span class="ck">Methods: </span>A/B 테스트, 코호트 분석, 퍼널 분석, 회귀분석</div>
+      </div>
+      <ul class="rlist">
+        <li class="r"><span class="rico">—</span><span><strong>SQL</strong> 없으면 서류 탈락 수준</span></li>
+        <li class="r"><span class="rico">—</span><span><strong>Python</strong> pandas 수준이면 신입은 충분</span></li>
+        <li class="r"><span class="rico">—</span><span><strong>BI 툴</strong> Tableau / Looker / GDS / 등</span></li>
+        <li class="r"><span class="rico">—</span><span><strong>DB</strong> MySQL / BigQuery / Snowflake / 등</span></li>
+      </ul>
+    </div>
+    <div class="bgn">16</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  17  Skills — 면접 질문지 경고
+══════════════════════════════════ -->
+  <section class="slide" id="slide-17" data-resume="skills">
+    <div class="sh">
+      <span class="stag">Skills cont.</span>
+      <span class="snum">18 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">Skills 섹션은 면접용 질문지다</h2>
+      <div class="rule r"></div>
+      <p class="r" style="font-size:var(--body);color:var(--t2);margin-bottom:var(--gap);">적어놓으면 반드시 물어본다.</p>
+      <ul class="rlist">
+        <li class="r"><span class="rico">❌</span><span>"한 번 튜토리얼 따라해봤다" → 30초 동안 제대로 설명 못하면 오히려 독이 된다</span></li>
+        <li class="r"><span class="rico">✅</span><span>"프로젝트에서 직접 썼고, 왜 썼는지 막힘 없이 설명할 수 있다"</span></li>
+      </ul>
+      <div class="formula r">
+        <span class="flbl">면접관 질문</span>
+        "Spark 써보셨네요, 어떤 상황에서 쓰셨어요?"
+      </div>
+      <p class="note r">❌ "Excel 상/중/하" 등급 표기 하지않기...ㄴ</p>
+    </div>
+    <div class="bgn">17</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  18  이전 경력이 있다면? (참고)
+══════════════════════════════════ -->
+  <section class="slide" id="slide-18">
+    <div class="sh">
+      <span class="stag">참고</span>
+      <span class="snum">19 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">이전 경력이 있다면?</h2>
+      <div class="rule r"></div>
+      <p class="r" style="font-size:var(--body);color:var(--t2);margin-bottom:var(--gap);">커리어 전환자라면 과거 경력을 DA 언어로 재해석할
+        수 있다. 도메인 이해는 신입에게 없는 강점이다.</p>
+      <table class="tbl r">
+        <thead>
+          <tr>
+            <th>이전 직무</th>
+            <th>DA 키워드로 전환</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>마케터</td>
+            <td>세그멘테이션, 퍼널 분석, 전환율 최적화</td>
+          </tr>
+          <tr>
+            <td>기획자</td>
+            <td>KPI 정의, 대시보드 설계, A/B 테스트</td>
+          </tr>
+          <tr>
+            <td>MD·영업</td>
+            <td>이커머스 도메인, 수요 예측, 코호트 분석</td>
+          </tr>
+          <tr>
+            <td>회계·재무</td>
+            <td>재무 데이터 해석, 이상값 탐지, 리포팅 자동화</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="formula r">
+        <span class="flbl">Objective 예시</span>
+        "이커머스 마케팅 3년간 고객 세그멘테이션과 캠페인 성과 분석을 직접 맡아 운영했습니다. 이후 Python과 SQL을 독학으로 익혀 코호트 분석과 퍼널 분석 프로젝트 2건을 직접 진행했습니다. 현장
+        도메인 지식과 데이터 분석을 함께 갖춘 DA로 성장하고 싶습니다."
+      </div>
+    </div>
+    <div class="bgn">18</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  19  ATS 전략
+══════════════════════════════════ -->
+  <section class="slide" id="slide-19">
+    <div class="sh">
+      <span class="stag">ATS</span>
+      <span class="snum">20 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">ATS 통과 — Job Description (JD) 미러링</h2>
+      <div class="rule r"></div>
+      <div class="two-col r">
+        <div>
+          <p class="colh">4단계 전략</p>
+          <div class="steps">
+            <div class="step"><span class="stepn">01</span><span>JD 전문 복사</span></div>
+            <div class="step"><span class="stepn">02</span><span>키워드 추출 — 툴·언어·방법론·도메인</span></div>
+            <div class="step"><span class="stepn">03</span><span>이력서에 동일 단어로 반영</span></div>
+            <div class="step"><span class="stepn">04</span><span>Jobscan.co 스코어 → <strong>70%+</strong></span></div>
+          </div>
+        </div>
+        <div>
+          <p class="colh">ATS가 못 읽는 것</p>
+          <ul class="rlist">
+            <li><span class="rico">×</span><span>표·그래프 안의 텍스트</span></li>
+            <li><span class="rico">×</span><span>텍스트 박스 / 헤더·푸터</span></li>
+            <li><span class="rico">×</span><span>Canva 이력서 (이미지 기반)</span></li>
+            <li><span class="rico">×</span><span>특수문자 과다</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="bgn">19</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  20  채용 현실
+══════════════════════════════════ -->
+  <section class="slide" id="slide-20">
+    <div class="sh">
+      <span class="stag">현실</span>
+      <span class="snum">21 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">알아야 할 현실 3가지</h2>
+      <div class="rule r"></div>
+      <ul class="rlist">
+        <li class="r"><span class="rico">①</span><span><strong>코딩테스트</strong> — 일부 회사는 서류와 함께 SQL·Python 테스트를 본다. 이력서가
+            완벽해도 코테에서 막히면 끝.</span></li>
+        <li class="r"><span class="rico">②</span><span><strong>경쟁률</strong> — 경력 2–3년차와 같은 풀에서 경쟁한다. 테크 스타트업·이커머스 중견기업에
+            병행 지원. 첫 직장 1–2년 후 이직이 성공률 높다.</span></li>
+        <li class="r"><span class="rico">③</span><span><strong>LinkedIn</strong> — 리크루터가 이력서와 크로스체크한다. URL 커스터마이징 필수:
+            <code style="font-family:var(--mono);font-size:0.9em">linkedin.com/in/yourname</code></span></li>
+      </ul>
+    </div>
+    <div class="bgn">20</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  21  체크리스트 — 즉시 탈락
+══════════════════════════════════ -->
+  <section class="slide" id="slide-21">
+    <div class="sh">
+      <span class="stag">체크리스트 1/2</span>
+      <span class="snum">22 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">탈락 요인</h2>
+      <div class="rule r"></div>
+      <ul class="rlist">
+        <li class="r"><span class="rico">❌</span><span>오타·문법 오류 → Grammarly + 맞춤법 검사기</span></li>
+        <li class="r"><span class="rico">❌</span><span>날짜 형식 혼용 → "2023.01"과 "2023년 1월" 혼용 금지</span></li>
+        <li class="r"><span class="rico">❌</span><span>이메일 <code
+              style="font-family:var(--mono);font-size:0.9em">cuteboy1004@naver.com</code> → Gmail 새로 만들어라</span></li>
+        <li class="r"><span class="rico">❌</span><span>GitHub 링크가 빈 레포 / README 없음</span></li>
+        <li class="r"><span class="rico">❌</span><span>설명 못하는 프로젝트가 포트폴리오에 있음</span></li>
+      </ul>
+    </div>
+    <div class="bgn">21</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  22  체크리스트 — 제출 전
+══════════════════════════════════ -->
+  <section class="slide" id="slide-22">
+    <div class="sh">
+      <span class="stag">체크리스트 2/2</span>
+      <span class="snum">23 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">제출 전 최종 확인</h2>
+      <div class="rule r"></div>
+      <ul class="rlist">
+        <li class="r"><span class="rico">✅</span><span>모든 bullet에 숫자 또는 규모가 있는가</span></li>
+        <li class="r"><span class="rico">✅</span><span>Action 동사로 시작하는가 (담당·기여·도움 금지)</span></li>
+        <li class="r"><span class="rico">✅</span><span>"왜 그 방법인지"가 한 줄이라도 들어갔는가</span></li>
+        <li class="r"><span class="rico">✅</span><span>Skills에 방어 못하는 스킬이 없는가</span></li>
+        <li class="r"><span class="rico">✅</span><span>JD 키워드를 자연스럽게 반영했는가 (Jobscan 70%+)</span></li>
+        <li class="r"><span class="rico">✅</span><span>포트폴리오 PDF가 함께 준비되어 있는가</span></li>
+        <li class="r"><span class="rico">✅</span><span>파일명이 적절한가 (이력서_최종_찐_진짜최종_v24.pdf 금지)</span></li>
+      </ul>
+    </div>
+    <div class="bgn">22</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  23  마무리
+══════════════════════════════════ -->
+  <section class="slide" id="slide-23">
+    <div class="sh">
+      <span class="stag">마무리</span>
+      <span class="snum">24 / 26</span>
+    </div>
+    <div class="sc">
+      <p class="r"
+        style="font-size:var(--sm);text-transform:uppercase;letter-spacing:0.12em;color:var(--t3);margin-bottom:clamp(0.4rem,1.2vh,1rem);">
+        목표는 하나 — 면접 기회를 얻는 것</p>
+      <h2 class="close-title r">이력서는<br>설득용 문서다</h2>
+      <div class="rule r"></div>
+      <ul class="rlist">
+        <li class="r"><span class="rico">—</span><span>완벽해질 때까지 기다리지 마라. 오늘 80점짜리를 만들어서 내보내라</span></li>
+        <li class="r"><span class="rico">—</span><span>탈락은 실패가 아니다. 이력서엔 몇번 떨어졌는지 안 쓴다</span></li>
+        <li class="r"><span class="rico">—</span><span>마스터 이력서 하나를 만들어두고 JD마다 키워드를 조금씩 수정하라</span></li>
+        <li class="r"><span class="rico">—</span><span>포트폴리오는 면접 전날에 준비하는게 아니라 미리미리 준비해두자</span></li>
+      </ul>
+    </div>
+    <div class="bgn">23</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  24  리소스
+══════════════════════════════════ -->
+  <section class="slide" id="slide-24">
+    <div class="sh">
+      <span class="stag">리소스</span>
+      <span class="snum">25 / 26</span>
+    </div>
+    <div class="sc">
+      <h2 class="title r">유용한 도구 모음</h2>
+      <div class="rule r"></div>
+      <table class="rtbl r">
+        <tbody>
+          <tr>
+            <td class="rcat">이력서 작성</td>
+            <td><a href="https://github.com/yamlresume/yamlresume" target="_blank">yamlresume</a></td>
+          </tr>
+          <tr>
+            <td class="rcat">ATS 체크</td>
+            <td><a href="https://www.jobscan.co" target="_blank">Jobscan</a></td>
+          </tr>
+          <tr>
+            <td class="rcat">영문 교정</td>
+            <td><a href="https://www.grammarly.com" target="_blank">Grammarly</a></td>
+          </tr>
+          <tr>
+            <td class="rcat">국문 맞춤법</td>
+            <td><a href="https://nara-speller.co.kr/speller/" target="_blank">부산대 한국어 맞춤법/문법 검사기(바른 한글)</a></td>
+          </tr>
+          <tr>
+            <td class="rcat">이력서 템플릿</td>
+            <td><a href="https://careerservices.fas.harvard.edu/resources/bullet-point-resume-template/"
+                target="_blank">Harvard Resume Template</a></td>
+          </tr>
+          <tr>
+            <td class="rcat">포트폴리오</td>
+            <td>
+              <a href="https://github.com" target="_blank">GitHub</a> ·
+              <a href="https://notion.so" target="_blank">Notion</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="rcat">채용공고</td>
+            <td>
+              <a href="https://www.wanted.co.kr" target="_blank">원티드</a> ·
+              <a href="https://www.rocketpunch.com" target="_blank">로켓펀치</a> ·
+              <a href="https://www.linkedin.com/jobs" target="_blank">LinkedIn</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bgn">24</div>
+  </section>
+
+  <!-- ══════════════════════════════════
+  25  Q&A
+══════════════════════════════════ -->
+  <section class="slide title-slide" id="slide-25">
+    <div class="sh r">
+      <span class="stag">Q&amp;A</span>
+      <span class="snum">26 / 26</span>
+    </div>
+    <div class="sc">
+      <h1 class="th1 r">Q&amp;A</h1>
+    </div>
+    <div class="bgn">25</div>
+  </section>
+
+  <script>
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.total = this.slides.length;
+        this.cur = 0;
+        this.pb = document.getElementById('progressBar');
+        this.nd = document.getElementById('navDots');
+        this.buildDots();
+        this.observe();
+        this.keyboard();
+        this.wheel();
+        this.touch();
+        this.sync();
+      }
+
+      buildDots() {
+        this.nd.innerHTML = '';
+        this.slides.forEach((_, i) => {
+          const b = document.createElement('button');
+          b.className = 'ndot' + (i === 0 ? ' active' : '');
+          b.setAttribute('aria-label', `Slide ${i + 1}`);
+          b.addEventListener('click', () => this.go(i));
+          this.nd.appendChild(b);
+        });
+      }
+
+      observe() {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              const i = this.slides.indexOf(e.target);
+              if (i !== -1) { this.cur = i; this.sync(); }
+            }
+          });
+        }, { threshold: 0.5 });
+        this.slides.forEach(s => obs.observe(s));
+      }
+
+      keyboard() {
+        document.addEventListener('keydown', e => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); this.next(); }
+          if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); this.prev(); }
+          if (e.key === 'Home') { e.preventDefault(); this.go(0); }
+          if (e.key === 'End') { e.preventDefault(); this.go(this.total - 1); }
+        });
+      }
+
+      wheel() {
+        let t;
+        document.addEventListener('wheel', e => {
+          e.preventDefault();
+          clearTimeout(t);
+          t = setTimeout(() => { e.deltaY > 0 ? this.next() : this.prev(); }, 60);
+        }, { passive: false });
+      }
+
+      touch() {
+        let sy = 0;
+        document.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, { passive: true });
+        document.addEventListener('touchend', e => {
+          const d = sy - e.changedTouches[0].clientY;
+          if (Math.abs(d) > 50) { d > 0 ? this.next() : this.prev(); }
+        }, { passive: true });
+      }
+
+      next() { if (this.cur < this.total - 1) this.go(this.cur + 1); }
+      prev() { if (this.cur > 0) this.go(this.cur - 1); }
+      go(i) { this.slides[i].scrollIntoView({ behavior: 'smooth' }); }
+
+      sync() {
+        this.nd.querySelectorAll('.ndot').forEach((d, i) => d.classList.toggle('active', i === this.cur));
+        this.pb.style.width = ((this.cur + 1) / this.total * 100) + '%';
+        const section = this.slides[this.cur].dataset.resume;
+        const bar = document.getElementById('resumeBar');
+        if (section) {
+          bar.querySelectorAll('.rb-item').forEach(el => {
+            el.classList.toggle('active', el.dataset.section === section);
+          });
+          bar.classList.add('show');
+        } else {
+          bar.classList.remove('show');
+        }
+      }
+    }
+
+    new SlidePresentation();
+  </script>
+
+  <div id="resumeBar" aria-label="Resume section tracker">
+    <span class="rb-item" data-section="objective">Objective</span>
+    <span class="rb-item" data-section="experience">Experience</span>
+    <span class="rb-item" data-section="projects">Projects</span>
+    <span class="rb-item" data-section="skills">Skills</span>
+    <span class="rb-item" data-section="education">Education</span>
+  </div>
+</body>
+
+</html>
